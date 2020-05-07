@@ -1,5 +1,6 @@
 package q002;
 
+import java.util.*;
 /**
  * Q002 並べ替える
  *
@@ -45,5 +46,22 @@ public class Q002 {
             "14,林",
             "9,清水"
     };
+
+    public static void main(String[] args) {
+        Map<Integer, Integer> numPart = new HashMap<>();
+        List<String> namePart = new ArrayList<>();
+
+        // 数字部分と名前部分を分ける
+        for (int i = 0; i < dataList.length; i++) {
+            String[] data = dataList[i].split(",", 0);
+            numPart.put(Integer.parseInt(data[0]), i);
+            namePart.add(data[1]);
+        }
+
+        // 数字部分に紐づく名前部分を,番号順に取得する
+        for(Map.Entry<Integer, Integer> entry : numPart.entrySet()) {
+            System.out.println(entry.getKey() + ":" + namePart.get(entry.getValue()));
+        }
+    }
 }
-// 完成までの時間: xx時間 xx分
+// 完成までの時間: 04時間 30分
