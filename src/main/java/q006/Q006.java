@@ -1,11 +1,14 @@
 package q006;
 
-import q006.value.DecimalValue;
-import q006.value.IValue;
-import q006.value.PlusValue;
+import q006.value.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Q006 空気を読んで改修
@@ -38,17 +41,49 @@ public class Q006 {
         List<IValue> resultList = new ArrayList<>();
         // 空白文字で区切ってループする
         for (String text: lineText.split("[\\s]+")) {
-            // TODO 一部処理だけ実装
             switch (text) {
                 case "+":   // 足し算
                     resultList.add(new PlusValue());
+                    break;
+                case "-":   // 引き算
+                    resultList.add(new MinusValue());
+                    break;
+                case "*":   // 掛け算
+                    resultList.add(new MultipleValue());
+                    break;
+                case "/":   // 割り算
+                    resultList.add(new DivideValue());
                     break;
                 default:    // その他は数値として扱う
                     resultList.add(new DecimalValue(text));
                     break;
             }
         }
+
         return resultList;
     }
+
+    public static void main(String[] args) throws IOException {
+        while (true) {
+            System.out.print("Input >> ");
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            String str = br.readLine();
+
+            // exitと入力されたら閉じる
+            if (str.equals("exit")){ break; }
+
+            // 標準入力の計算式を渡す
+            Stack<BigDecimal> que = new Stack<>();
+            List<IValue> result;
+            result = parseLine(str);
+            for (IValue iValue : result) {
+                iValue.execute(que);
+            }
+
+            // 計算結果を出力する
+            System.out.println(que.pop());
+            System.out.println("(IF YOU QUIT, INPUT 'exit')");
+        }
+    }
 }
-// 完成までの時間: xx時間 xx分
+// 完成までの時間: 03時間 30分
