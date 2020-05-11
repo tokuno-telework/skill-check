@@ -19,4 +19,6 @@ public class WorkData {
 
     /** 作業時間(分) */
     private int workTime;
+
+
 }
